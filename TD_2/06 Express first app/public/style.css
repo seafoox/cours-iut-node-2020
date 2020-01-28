@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  width: 800px;
+  margin: 20px auto;
+  border: 1px solid grey;
+}
+
+header {
+  padding: 20px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+nav {
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  margin: 10px auto;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+nav ul li a {
+  display: inline-block;
+  padding: 5px 10px;
+}
+
+.content {
+  padding: 20px;
+}
+
+footer {
+  border-top: 1px solid grey;
+  padding: 20px;
+  text-align: center;
+}
