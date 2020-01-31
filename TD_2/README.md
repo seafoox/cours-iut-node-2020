@@ -1,4 +1,4 @@
-# Récapitulatif des cours, semaine du 4 Fevrier 2018
+# Récapitulatif des cours, semaine du 26 Janvier 2020
 
 ## NPM et package.json
 
@@ -21,7 +21,7 @@ Voici un exemple simple d'un fichier `package.json` :
     "start": "\"./node_modules/.bin/nodemon\" app.js",
     "regular_start": "node app.js"
   },
-  "author": "Julien P.",
+  "author": "Me",
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.2"
