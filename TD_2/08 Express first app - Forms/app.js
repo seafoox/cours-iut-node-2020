@@ -3,15 +3,16 @@ const bodyParser = require('body-parser');
 const app = express();
 const defaultRoutes = require('./routes/default.js');
 const projectsRoutes = require('./routes/projects.js');
+const contactRoutes = require('./routes/contact.js');
 
-// Route vers les ressources static
 app.use(express.static('public'));
 
-// Routes par defaut
-app.use('/', defaultRoutes);
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
 
-// Routes pour /projects
+app.use('/', defaultRoutes);
 app.use('/projects', projectsRoutes);
+app.use('/contact', contactRoutes);
 
 app.listen(3000, () => {
     console.log('Example app listening on port 3000!');
