@@ -62,7 +62,43 @@ npm install express --save
 npm install express --save-dev
 ```
 
+### Utilisation de dépendances
 
+En Node, les dépendances s'utilisent avec `require`.
+
+Il y a 2 types de dépendances qui peuvent être appelées avec `require`:
+
+#### 1. Les dépendances Node, qui se trouvent dans la partie `dependencies` du fichier `package.json`
+
+```sh
+npm install express
+```
+
+```javascript
+// Un nom "seul" sera cherché dans le dossier node_modules/
+const express = require('express');
+```
+
+#### 2. Les objets ou fonctions que l'on a nous-même définis en tant que dépendances avec `module.exports`
+```javascript
+function monModule(param) {
+  return param + '-modified';
+}
+module.exports = monModule;
+// --- OU ---
+const monModule = {
+    property1: true,
+    property2: 'string value',
+};
+module.exports = monModule;
+```
+
+```javascript
+// Il faut viser le fichier relativement à celui où l'on se trouve avec ./ ou ../
+const module = require('./monModule');
+// --- OU ---
+const module = require('./monModule.js');
+```
 
 ## Premiers pas avec Express
 
@@ -103,3 +139,99 @@ app.get('/projects', (req, res) => {
 });
 ```
 
+2. Routes avancées : modulaires
+```javascript
+// routes/default.js
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => {
+    const html = getAccueil();
+    res.send(html);
+});
+
+module.exports = router;
+```
+
+```javascript
+// routes/projects.js
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => {
+    const html = getListeProjets();
+    res.send(html);
+})
+
+module.exports = router;
+```
+
+```javascript
+const app = express();
+
+const defaultRoutes = require('./routes/default.js');
+const projectsRoutes = require('./routes/projects.js');
+
+app.use('/', defaultRoutes);
+app.use('/projects', projectsRoutes);
+```
+
+Pour aller plus loin : [Express routing](https://expressjs.com/en/guide/routing.html)
+
+### Moteur de templates
+
+Voir le récapitulatif du [TD 3](../TD_3/README.md)
+
+### Middlewares
+
+Les middlewares sont des fonctions qui sont appelées par Express entre l'éxecution de
+2 modules, généralement après l'initialisation de l'app et avant de définir et
+éxecuter les routes :
+
+```javascript
+const express = require('express');
+const app = express(); // initialisation de l'app
+
+// middleware qui permet de decoder le 'body' envoyé depuis un formulaire
+app.use(express.urlencoded({ extended:true }));
+
+// définition d'une route, dans laquelle on bénéficiera des "résultats" du middleare
+app.get('/', (req, res) => {
+    cont form = req.body;
+    res.send('Contenu de mon formulaire: ' + JSON.stringify(form));
+});
+```
+
+On peut schématiser l'action d'un middleware comme suis :
+
+![Express middleware](middlewares.png)
+
+Pour aller plus loin :
+- [Writing middleware](http://expressjs.com/en/guide/writing-middleware.html)
+- [Using middleware](http://expressjs.com/en/guide/using-middleware.html)
+- [Liste de middlewares](http://expressjs.com/en/resources/middleware.html)
+
+### Création de routes API et REST-friendly
+
+Le [TD 6](../TD_6/README.md) revient plus en détails sur le concept de d'API REST.
+
+Il faut retenir qu'Express permet très facilement de créer des routes qui correspondent
+aux différentes méthodes du protocol HTTP : _GET_, _POST_, _DELETE_, _PUT_...
+
+Exemples :
+```javascript
+app.get('/route', (req, res) => {
+    // cette route ne peut qu'être appelée en utilisant la méthode GET
+});
+app.post('/route', (req, res) => {
+    // cette route ne peut qu'être appelée en utilisant la méthode POST
+});
+app.delete('/route', (req, res) => {
+    // cette route ne peut qu'être appelée en utilisant la méthode DELETE
+});
+app.put('/route', (req, res) => {
+    // cette route ne peut qu'être appelée en utilisant la méthode PUT
+});
+```
+
+Pour aller plus loin : [Express routing](https://expressjs.com/en/guide/routing.html)
