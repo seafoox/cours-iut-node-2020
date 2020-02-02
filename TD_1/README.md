@@ -35,6 +35,8 @@ Ici, on utilise la version `1.1` du protocol `HTTP` afin d’accéder à la ress
 Ci-dessous un screenshot obtenu via l'onglet "Network" dans le [Chrome DevTools](https://developer.chrome.com/devtools)
 ![Network screenshot in Google Chrome Developer Tool](network_screenshot.png)
 
+(Explication pour ceux qui utilisent Firefox [ici](https://developer.mozilla.org/fr/docs/Outils/Moniteur_r%C3%A9seau/request_details))
+
 En réponse le serveur nous à retourné un document de type `MIME = text/html`
 
 ```
@@ -63,6 +65,8 @@ Résolution d’une nom-de-domain.com en adresse IP grasse aux serveurs DNS.
     * Comprendre le DNS en 5 minutes: https://www.youtube.com/watch?v=qzWdzAvfBoo (French)
     * Résolution d’un nom de domaine en cascade - https://www.youtube.com/watch?v=3EvjwlQ43_4 (English)
 * Une fois l’adresse IP obtenue, le “client” faisant la requête, met en “cache” l’IP afin de ne pas avoir à redemander aux serveurs DNS à chaque nouvelle requête.
+
+
 
 ## Mise en pratique
 

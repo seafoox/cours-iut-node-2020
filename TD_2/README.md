@@ -140,6 +140,8 @@ app.get('/projects', (req, res) => {
 ```
 
 2. Routes avancées : modulaires
+Se référer à "07 Express first app - Modules"
+
 ```javascript
 // routes/default.js
 const express = require('express');
@@ -176,11 +178,89 @@ app.use('/', defaultRoutes);
 app.use('/projects', projectsRoutes);
 ```
 
-Pour aller plus loin : [Express routing](https://expressjs.com/en/guide/routing.html)
+Pour aller plus loin : [Express routing](https://expressjs.com/fr/guide/routing.html)
 
-### Moteur de templates
+#### Passage de paramètres dans les routes
+Se référer à l'exercice "07 Express first app - Modules"
 
-Voir le récapitulatif du [TD 3](../TD_3/README.md)
+```
+Route path: /users/:userId/books/:bookId
+Request URL: http://localhost:3000/users/34/books/8989
+req.params: { "userId": "34", "bookId": "8989" }
+```
+Pour définir cette route, il suffit de specifier les paramètres dans le chemin de la route, comme indiqué ci-dessous
+
+```javascript
+app.get('/users/:userId/books/:bookId', function (req, res) {
+  res.send(req.params)
+})
+```
+Note: les valeurs passées en paramètre doivent correspondre à une chaine de caractères ([A-Za-z0-9_]).
+
+[Exemple complémentaire dans la doc Express (EN)](https://expressjs.com/en/guide/routing.html)
+
+### Formulaire et envoi de donnée en POST
+Lorsqu'il est nécessaire d'envoyer des données à un serveur, notamment dans le cas d'un formulaire (d'inscription, login, contact ...), il est préférable pour des raisons de performance et de sécurité, d'utiliser la méthode POST. Ceci permet que les données envoyées le soient dans le corps de la requête HTTP (= body), et non dans l'URL directement.
+
+#### 08 Express first app - Forms
+```html
+# routes/contact.js
+<form action="/contact/send" method="post">
+    <label for="message">Votre message: </label>
+    <textarea id="message" type="text" name="message_field" value="Saisir votre messsage"></textarea>
+    <input type="submit" value="Envoyer">
+</form>
+```
+
+Lorsque l'utilisateur clique sur "Envoyer", le contenu qu'il aura saisi dans le champ `#message` sera envoyé vers le serveur
+
+* Vers la route `/contact/send` utilisant la méthode `POST`
+* Le contenu du body sera alors `message_field:Le texte que j'ai saisi`
+
+A noter qu'il est aussi bien possible de passer des données texte (texte non structuré provenant de formulaire, JSON, ...), que binaire (upload damage, pdf, ...)
+
+```javascript
+// routes/contact.js
+router.post('/send', (req, res) => {
+    let params = req.body;
+    console.log(params);
+    res.redirect('/contact?status=sent');
+});
+```
+Afin de lire les informations reçues, il nous faut utiliser le middleware [body-parser](https://github.com/expressjs/body-parser) installé via `npm` et initialisé dans `app.js` à l'aide des lignes suivantes:
+
+```javascript
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+```
+
+À noter qu'ici nous ne faisons aucun usage des informations envoyées au-delà de les afficher dans la console, mais qu'en temps normal en fonction de l'usage il est courant de sauvegarder les données reçues dans un BD, et si besoin faire d'autres actions comme envoyer un email (dans le cas d'un formulaire de contact).
+
+
+#### Informer l'utilisateur que le formulaire est bien envoyé
+Une fois les données du formulaire reçu par le serveur, il nous suffit de prévenir l'utilisateur que l'envoie du formulaire bien fonctionné.
+Pour ce faire, il nous suffit de le rédiger vers la même page, et d'y afficher un message de confirmation qui se base sur la condition que `?status=sent` fait partie des paramètres d'URL passés (on regarde la valeur de `req.query.status`). Ce qui est le cas ici lors de notre redirection.
+
+```javascript
+// routes/contact.js
+router.get('/', (req, res) => {
+    let html = fs.readFileSync(__dirname + '/../index.html', 'utf8');
+    let form;
+    if (req.query.status) {
+        form = 'Message envoyé';
+    } else {
+        form = `
+            <form action="/contact/send" method="post">
+                <label for="message">Votre message: </label>
+                <textarea id="message" type="text" name="message_field" value="Saisir votre messsage"></textarea>
+                <input type="submit" value="Envoyer">
+            </form>
+        `;
+    }
+    html = html.replace('#content#', form);
+    res.send(html);
+});
+```
 
 ### Middlewares
 
@@ -204,12 +284,13 @@ app.get('/', (req, res) => {
 
 On peut schématiser l'action d'un middleware comme suis :
 
-![Express middleware](middlewares.png)
+![Express middleware cascade](express_middleware_cascade.png)
 
 Pour aller plus loin :
-- [Writing middleware](http://expressjs.com/en/guide/writing-middleware.html)
-- [Using middleware](http://expressjs.com/en/guide/using-middleware.html)
-- [Liste de middlewares](http://expressjs.com/en/resources/middleware.html)
+- [Ecriture de middleware](http://expressjs.com/fr/guide/writing-middleware.html)
+- [Using middleware](http://expressjs.com/fr/guide/using-middleware.html)
+- [Liste de middlewares](http://expressjs.com/fr/resources/middleware.html)
+
 
 ### Création de routes API et REST-friendly
 
@@ -234,4 +315,5 @@ app.put('/route', (req, res) => {
 });
 ```
 
-Pour aller plus loin : [Express routing](https://expressjs.com/en/guide/routing.html)
+Pour aller plus loin : [Express routing](https://expressjs.com/fr/guide/routing.html)
+
