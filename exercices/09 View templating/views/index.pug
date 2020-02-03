@@ -1,0 +1,7 @@
+extends layout
+
+block dynamicContent
+  if content != null
+    div #{content}
+  else
+    div Y a pas de contenu

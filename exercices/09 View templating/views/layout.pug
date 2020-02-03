@@ -1,0 +1,23 @@
+html
+  head
+    title=title
+    link(rel="stylesheet" href="/style.css")
+  body
+    .container
+      header
+        h1 Mon site - #{title}
+      nav
+        ul
+          li
+            a(href="/") Accueil
+          li
+            a(href="/projects") Projets
+          li
+            a(href="/contact") Contact
+          li
+            a(href="/login") Login
+
+      .content
+        block dynamicContent
+
+      footer IUT Paris Descartes - Cours programmation back-end 2020
