@@ -65,10 +65,6 @@ html
     .container
       header
         h1 Mon site - #{myTitle}
-        if username
-          span Connecté en tant que #{username}
-        else
-          span Pas connecté
       nav
         ul
           li
@@ -137,10 +133,6 @@ html
     .container
       header
         h1 Mon site - #{myTitle}
-        if username
-          span Connecté en tant que #{username}
-        else
-          span Pas connecté
       nav
         ul
           li
