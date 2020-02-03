@@ -77,8 +77,6 @@ html
             a(href="/projects") Projets
           li
             a(href="/contact") Contact
-          li
-            a(href="/login") Login
 
       .content
           if content != null
@@ -151,8 +149,6 @@ html
             a(href="/projects") Projets
           li
             a(href="/contact") Contact
-          li
-            a(href="/login") Login
 
       .content
         block dynamicContent

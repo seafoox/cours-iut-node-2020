@@ -2,7 +2,6 @@ const express = require('express');
 const defaultRoutes = require('./routes/default');
 const projectsRoutes = require('./routes/projects');
 const contactRoutes = require('./routes/contact');
-const loginRoutes = require('./routes/login')
 const app = express();
 
 app.use(express.static('public'));
