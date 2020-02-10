@@ -40,6 +40,7 @@ Par exemple le fichier *index.html*
           <li><a href="/">Accueil</a></li>
           <li><a href="/projects">Projets</a></li>
           <li><a href="/contact">Contact</a></li>
+          <li><a href="/login">Login</a></li>
         </ul>
       </nav>
       <div class="content">
@@ -73,6 +74,8 @@ html
             a(href="/projects") Projets
           li
             a(href="/contact") Contact
+          li
+            a(href="/login") Login
 
       .content
           if content != null
@@ -112,6 +115,30 @@ Extrait de **index.pug**
     div Y a pas de contenu
 ```
 
+#### Utilisation des FOR IN
+
+Extrait de **projects.pug**
+```jade
+ul
+  for project in projectsList
+    li
+      a(href="/projects/" + project.id) #{project.id} - #{project.name}
+```
+
+HTML généré
+```
+<div class="content">
+   <ul>
+      <li><a href="/projects/1">1 - super projet</a></li>
+      <li><a href="/projects/2">2 - le deuxieme projet</a></li>
+      <li><a href="/projects/3">3 - jamais 2 sans 3</a></li>
+      <li><a href="/projects/4">4 - difficile de trouver des bons titres</a></li>
+      <li><a href="/projects/5">5 - le dernier projet</a></li>
+      <li><a href="/projects/10">10 - new project in english</a></li>
+   </ul>
+</div>
+```
+
 #### Autres éléments de syntaxe
 Il existe un grand nombre d'autres éléments de syntaxe qui rendent l'écriture des vues simplifiée.
 Ces derniers sont décrits ici
@@ -141,6 +168,8 @@ html
             a(href="/projects") Projets
           li
             a(href="/contact") Contact
+          li
+            a(href="/login") Login
 
       .content
         block dynamicContent
@@ -151,5 +180,3 @@ html
 On note ici que l'on ajouter dans la partie `.content` la mention `block dynamicContent`. Ceci nous permet de déclarer la partie qui va être injectée en provenance des pages utilisant ce template.
 
 Une fois cela fait, nous pouvons pour chacune de nos vues imbriquées, retirer la partie déclarée dans le fichier layout.pug (qui est celle répétée)
-
-

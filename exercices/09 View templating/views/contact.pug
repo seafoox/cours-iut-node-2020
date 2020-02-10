@@ -5,12 +5,12 @@ block dynamicContent
   if status
     p
       strong Message envoyé
-  form(method='post', action='/contact/send')
+  form(method="post", action="/contact/send")
     p
       label Votre nom
-      input(type='text', name='nom')
+      input(type="text", name="nom")
     p
       label Votre message
-      textarea(name='message', rows='5', cols='30')
+      textarea(name="message", rows="5", cols="30")
     p
-      input(type='submit', value='Envoyer')
+      input(type="submit", value="Envoyer")
