@@ -1,9 +1,9 @@
-# Récapitulatif du cours du 3 Fevrier 2018
+# Récapitulatif du cours du 10 Fevrier 2020
 
 ## Utilisation d'un moteur de template
 Jusqu'à présent nous avons construit notre application web en mélangeant la logique métier écrit en JS avec les vues (= pages) elles-mêmes, écrites en HTML. Cela fonctionne, mais rend difficile la maintenance ainsi que la collaboration. Afin de pallier à ces problèmes, il est une bonne pratique d'utiliser un moteur de template, permettant ainsi de séparer distinctement l’interface graphique du reste de votre application.
 
-### Installation de pug
+### 09 View templating: Installation de pug
 Pour ce faire nous avons opté pour l'utilisation du moteur `pug` (site officiel)[https://pugjs.org/api/getting-started.html] qui s'installe via npm au même titre que les autres packages via la commande `npm install pug --save`
 
 
