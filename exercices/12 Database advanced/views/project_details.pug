@@ -1,0 +1,8 @@
+extends layout
+
+block dynamicContent
+  p= projectDetails.id
+  p= projectDetails.name
+  p= projectDetails.description
+
+  a(href="/projects/") Back

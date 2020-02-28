@@ -1,0 +1,17 @@
+extends layout
+
+block dynamicContent
+  h2 Ajouter projet
+
+  if message
+    div= message
+
+  form(method="post" action="/projects/create")
+    p
+      label Nom du projet
+      input(type="text" name="name")
+    p
+      label Description du projet
+      textarea(name="description" rows="5" cols="30")
+    p
+      input(type="submit" value="Ajouter")
