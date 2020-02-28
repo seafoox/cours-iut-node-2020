@@ -3,10 +3,10 @@ const { Pool } = require("pg");
 
 // Inialisation de la connexion
 const pool = new Pool({
-  user: "tbkoyffh",
-  host: "john.db.elephantsql.com",
-  database: "tbkoyffh",
-  password: "AgF-A5vaCFNapXo3w5foX-Rn7GmkeFHI",
+  user: "",
+  host: "",
+  database: "",
+  password: "",
   port: 5432
 });
 
