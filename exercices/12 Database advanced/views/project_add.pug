@@ -4,8 +4,8 @@ block dynamicContent
   h2 Ajouter un projet
 
   if message
-    div= message
-
+    p= message
+    
   form(method="post" action="/projects/create")
     p
       label Nom du projet

@@ -1,6 +1,10 @@
 extends layout
 
 block dynamicContent
+  if isAuthentificated
+    p
+      a(href="/projects/add") Ajouter
+
   ul
     for project in projectsList
       li

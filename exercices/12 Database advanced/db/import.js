@@ -1,21 +1,13 @@
-const { Pool } = require("pg");
+const utils = require("./utils");
 const fs = require("fs");
+const { Pool } = require("pg");
 
 // Import du fichier avec les commandes SQL
 const dbFilePath = `${__dirname}/populate.sql`;
 const sql = fs.readFileSync(dbFilePath).toString();
 
-// Inialisation de la connexion
-const pool = new Pool({
-  user: "tbkoyffh",
-  host: "john.db.elephantsql.com",
-  database: "tbkoyffh",
-  password: "AgF-A5vaCFNapXo3w5foX-Rn7GmkeFHI",
-  port: 5432
-});
-
 // Execution des commandes SQL
-pool.query(sql, (err, res) => {
+utils.executeQuery(sql, [], (err, result) => {
   if (err) {
     console.log(res);
   } else {

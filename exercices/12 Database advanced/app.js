@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const helpers = require("./routes/helpers");
 const defaultRoutes = require("./routes/default");
 const projectsRoutes = require("./routes/projects");
 const contactRoutes = require("./routes/contact");
@@ -13,9 +14,14 @@ const sessionParams = {
 };
 app.use(session(sessionParams));
 
+
+
+
+// Middleware custom: executé pour chaque nouvelle requete HTTP
 app.use((req, res, next) => {
   if (req.session && req.session.userId) {
     res.locals.username = req.session.username;
+    res.locals.isAuthentificated = true;
   }
   next();
 });

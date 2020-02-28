@@ -6,7 +6,7 @@ html
     .container
       header
         h1 Mon site - #{title}
-        if username
+        if isAuthentificated
           span Connecté en tant que #{username}
             a(href="/login/logout") (Déconnexion)
         else
@@ -19,7 +19,7 @@ html
             a(href="/projects") Projets
           li
             a(href="/contact") Contact
-          if !username
+          if !isAuthentificated
             li
               a(href="/login") Login
 
