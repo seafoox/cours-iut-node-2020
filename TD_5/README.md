@@ -23,7 +23,7 @@ Une fois l'ajout effectué, il est possible de facilement confirmer la présence
 
 Ici on voit bien que nous avons les projets qui sont présents dans notre BD.
 
-## 11 - Database: Import d'un jeu de données de test
+## Import d'un jeu de données de test
 Lors de tout développement, il est important, dès lors que vous avez votre modèle de données (tables dans la BD), de créer et d'importer un jeu de données de tests.
 Il est une bonne pratique que de créer un script à cet effet permettant tout nouveau collaborateur au projet de facilement import le jeu de données.
 
@@ -37,9 +37,6 @@ Afin d'importer (ou re-importer) les données dans notre BD, il suffit d'appeler
 ### Utilisation du package `pg`
 Afin de nous connecter à la base de données depuis notre application nous avons besoin d'un Client PostgreSQL pour node. Il en existe plusieurs, mais dans le cadre de ce cours nous allons utiliser l'un des plus populaires: `pg`.
 
-*Note: En fonction de la version de node utilisée, il est nécessaire d'installer une version plus ou moins récente.*
-
-### Si vous utilisez une version de NodeJS > 6.3
 
 `npm install --save pg` // installe la dernière version en date
 
@@ -58,24 +55,7 @@ const pool = new Pool({
 });
 
 function executeQuery(sql, params, callback) {
-  // 1. Connection
-  pool.connect((err, client, done) => {
-    if (err) {
-      return console.error('Error fetching client from pool', err);
-    }
-    // 2. Execute the query
-    client.query(sql, params, (err, result) => {
-      // 3. Close Connection
-      done();
-
-      if (err) {
-        console.log(err);
-      } else {
-        // 4. Execute the callback(res)
-        callback(result);
-      }
-    });
-  });
+  pool.query(sql, params, callback);
 }
 ```
 
@@ -95,17 +75,10 @@ Ici la simple requête SQL `SELECT * FROM projects` suffis à récupérer la lis
 Extrait du  fichier *routes/projects.js*
 ```js
 router.get('/', (req, res) => {
-   executeQuery("SELECT * FROM projects", [], (result) => {
+   utils.executeQuery("SELECT * FROM projects", [], (result) => {
     res.render("projects", {projects_list: result.rows});
    });
 });
-
-function executeQuery(sql, params, callback){
-  // 1. Connection
-  // 2. Execute the query
-  // 3. Close Connection
-  // 4. Execute the callback(res)
-}
 ```
 
 Note: Nous avons vu qu'en fonction de la version de node utilisée, la syntaxe d'utilisation du module `pg` est légèrement différente. Par conséquent, veuillez vous référer au fichier `routes/projects.js` afin de voir l'implémentation de la fonction `executeQuery(sql, params, callback)` dans son détail.
@@ -117,7 +90,7 @@ Bonne nouvelle, méthode `query` de pg nous permet de passer en second paramètr
 
 ```js
 router.get('/:id', (req, res) => {
-    executeQuery("SELECT * FROM projects WHERE id=$1", [req.params.id], (result) => {
+    utils.executeQuery("SELECT * FROM projects WHERE id=$1", [req.params.id], (result) => {
         let details = result.rows[0];
         res.render('project_details', { project: details });
     });
