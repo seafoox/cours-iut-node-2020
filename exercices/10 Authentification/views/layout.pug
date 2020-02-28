@@ -6,6 +6,11 @@ html
     .container
       header
         h1 Mon site - #{title}
+        if username
+          span Connecté en tant que #{username}
+            a(href="/login/logout") (Déconnexion)
+        else
+          span Pas connecté
       nav
         ul
           li
