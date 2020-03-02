@@ -5,6 +5,7 @@ const defaultRoutes = require("./routes/default");
 const projectsRoutes = require("./routes/projects");
 const contactRoutes = require("./routes/contact");
 const loginRoutes = require("./routes/login");
+const apiRoutes = require('./routes/api');
 
 const app = express();
 
@@ -13,9 +14,6 @@ const sessionParams = {
   maxAge: 24 * 60 * 60 * 1000
 };
 app.use(session(sessionParams));
-
-
-
 
 // Middleware custom: executé pour chaque nouvelle requete HTTP
 app.use((req, res, next) => {
@@ -44,6 +42,7 @@ app.use("/", defaultRoutes);
 app.use("/projects", projectsRoutes);
 app.use("/contact", contactRoutes);
 app.use("/login", loginRoutes);
+app.use("/api", apiRoutes);
 
 app.listen("3000", () => {
   console.log("Server started");

@@ -1,0 +1,16 @@
+extends layout
+
+block dynamicContent
+  h2 Mettre à jour le projet #{projectId}
+    
+  form(method="post" action="/projects/update")
+    input(type="hidden" name="projectId" value=projectId)
+    p
+      label Nom du projet
+      input(type="text" name="name" value=defaultName)
+    p
+      label Description du projet
+      textarea(name="description" rows="5" cols="30")=defaultDescription
+        
+    p
+      input(type="submit" value="Enregistrer")
