@@ -1,5 +1,6 @@
 .DS_Store
 .package-lock.json
+.config.js
 **/node_modules
 
 # Logs
