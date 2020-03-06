@@ -1,13 +1,14 @@
 const utils = {};
+const config = require("../config");
 const { Pool } = require("pg");
 
 // Inialisation de la connexion
 const pool = new Pool({
-  user: "tbkoyffh",
-  host: "john.db.elephantsql.com",
-  database: "tbkoyffh",
-  password: "AgF-A5vaCFNapXo3w5foX-Rn7GmkeFHI",
-  port: 5432
+  user: config.database.user,
+  host: config.database.host,
+  database: config.database.database,
+  password: config.database.password,
+  port: config.database.port
 });
 
 utils.executeQuery = (sql, params, callback) => {
