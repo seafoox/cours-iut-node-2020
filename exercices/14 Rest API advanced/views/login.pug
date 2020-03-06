@@ -1,0 +1,14 @@
+extends layout
+
+block dynamicContent
+  h2 Authentification
+
+  form(method="post" action="/login/send")
+    p
+      label Login
+      input(type="text" name="username")
+    p
+      label Mot de passe
+      input(type="password" name="password")
+    p
+      input(type="submit" value="Connexion")

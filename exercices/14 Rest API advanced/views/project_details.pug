@@ -1,0 +1,16 @@
+extends layout
+
+block dynamicContent
+  p= projectDetails.id
+  p= projectDetails.name
+  p= projectDetails.description
+
+  ul.horizontal_action_list
+    li
+      a(href="/projects/") Back
+    if isAuthentificated
+      li
+        a(href="/projects/" + projectDetails.id + "/update") Update
+      li
+        a(href="/projects/" + projectDetails.id + "/delete") Delete
+

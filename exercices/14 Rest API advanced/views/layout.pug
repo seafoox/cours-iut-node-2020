@@ -1,0 +1,33 @@
+html
+  head
+    title=title
+    link(rel="stylesheet" href="/style.css")
+  body
+    .container
+      header
+        h1 Mon site - #{title}
+        if isAuthentificated
+          span Connecté en tant que #{username}
+            a(href="/login/logout") (Déconnexion)
+        else
+          span Pas connecté
+      nav
+        ul
+          li
+            a(href="/") Accueil
+          li
+            a(href="/projects") Projets
+          li
+            a(href="/contact") Contact
+          if !isAuthentificated
+            li
+              a(href="/login") Login
+
+      .content
+        if infoMessage
+          div.info_block
+            =infoMessage
+
+        block dynamicContent
+
+      footer IUT Paris Descartes - Cours programmation back-end 2020
