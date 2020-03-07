@@ -138,6 +138,36 @@ Ici la fonction `() => { sayHello("Pierre") }` est passée comme callback de la 
 ### Utilisations des Promises
 Afin de faciliter l'écriture du code, il est possible de rendre plus lisible l'enchainement de callback via l'utilisation de Promises.
 
+```js
+const text = 'INSERT INTO users(name, email) VALUES($1, $2) RETURNING *'
+const values = ['chuck', 'chuck.norris@gmail.com']
+// callback
+client.query(text, values, (err, res) => {
+  if (err) {
+    console.log(err.stack)
+  } else {
+    console.log(res.rows[0])
+    // { name: 'chuck', email: 'chuck.norris@gmail.com' }
+  }
+})
+// promise
+client
+  .query(text, values)
+  .then(res => {
+    console.log(res.rows[0])
+    // { name: 'chuck', email: 'chuck.norris@gmail.com' }
+  })
+  .catch(e => console.error(e.stack))
+// async/await
+try {
+  const res = await pool.query(text, values)
+  console.log(res.rows[0])
+  // { name: 'chuck', email: 'chuck.norris@gmail.com' }
+} catch (err) {
+  console.log(err.stack)
+}
+```
+
 * [Les Promises, késako ?](https://blog.groupe-sii.com/les-promises-en-javascript/)
 * [Utiliser des promises à la place des callbacks](https://oncletom.io/node.js/chapter-03/#promise)
 
