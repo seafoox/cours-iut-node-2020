@@ -1,11 +1,11 @@
 const express = require("express");
 const session = require("express-session");
-const helpers = require("./routes/helpers");
-const defaultRoutes = require("./routes/default");
-const projectsRoutes = require("./routes/projects");
-const contactRoutes = require("./routes/contact");
-const loginRoutes = require("./routes/login");
-const apiRoutes = require('./routes/api');
+const helpers = require("./helpers/helpers");
+const defaultRoutes = require("./controllers/default");
+const projectsRoutes = require("./controllers/projects");
+const contactRoutes = require("./controllers/contact");
+const loginRoutes = require("./controllers/login");
+const apiRoutes = require('./controllers/api');
 
 const app = express();
 
@@ -44,6 +44,7 @@ app.use("/contact", contactRoutes);
 app.use("/login", loginRoutes);
 app.use("/api", apiRoutes);
 
-app.listen("3000", () => {
-  console.log("Server started");
+let server = app.listen("3000", () => {
+  console.log(`Server started. Listening on port ${server.address().port}`);
+  helpers.setServerPort(server.address().port);
 });
