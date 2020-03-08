@@ -1,6 +1,6 @@
 .DS_Store
-.package-lock.json
-.config.js
+**/.package-lock.json
+**/.config.js
 **/node_modules
 .vscode
 
