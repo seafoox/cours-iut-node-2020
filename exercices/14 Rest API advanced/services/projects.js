@@ -15,31 +15,32 @@ module.exports = {
 // --------------------------------
 
 // Retourne la liste des projets
-function getAll(callback) {
-  // let sortBy = req.query.sortBy;
-  // let orderByString = "id DESC";
+function getAll(sortBy, callback) {
 
-  // switch (sortBy) {
-  //   case "name_asc":
-  //     orderByString = "name ASC";
-  //     break;
+  switch (sortBy) {
+    case "name_asc":
+      orderByString = "name ASC";
+      break;
 
-  //   case "name_desc":
-  //     orderByString = "name DESC";
-  //     break;
+    case "name_desc":
+      orderByString = "name DESC";
+      break;
 
-  //   case "createdAt_asc":
-  //     orderByString = "created_at ASC";
-  //     break;
+    case "createdAt_asc":
+      orderByString = "created_at ASC";
+      break;
 
-  //   case "createdAt_asc":
-  //     orderByString = "created_at DESC";
-  //     break;
-  // }
+    case "createdAt_desc":
+      orderByString = "created_at DESC";
+      break;
 
-  // let sqlQuery = "SELECT * FROM projects ORDER BY $1";
+    default:
+      orderByString = "id DESC";
+      break;
+  }
 
-  utils.executeQuery("SELECT id, name FROM projects LIMIT 100", [], (err, result) => {
+  let sqlQuery = `SELECT id, name FROM projects ORDER BY ${orderByString} LIMIT 100`
+  utils.executeQuery(sqlQuery, [], (err, result) => {
     if (err) {
       callback(true, err);
     } else {

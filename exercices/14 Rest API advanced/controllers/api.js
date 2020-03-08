@@ -6,7 +6,10 @@ const router = express.Router();
 
 // GET: Lister les projects
 // ----------------------------------------------
+// Parameters: /projects?orderby=createdAt_asc
+//
 // Example de réponse
+// ------------------
 // {
 //   "projectsList": [
 //     {
@@ -21,7 +24,8 @@ const router = express.Router();
 //     ...
 //
 router.get("/projects", (req, res) => {
-  projectsServices.getAll((err, projectsList) => {
+  orderBy = req.query.orderby;
+  projectsServices.getAll(orderBy, (err, projectsList) => {
     if (err) {
       res.status(500).json( {message: err} );
       return;
