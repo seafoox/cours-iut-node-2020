@@ -1,8 +1,42 @@
 const projectsServices = require("../services/projects");
 const helpers = require("../helpers/helpers");
+const helpersMW = require("./helpers");
 const express = require("express");
+const jwt = require('jsonwebtoken');
+const utils = require("../db/utils");
+const config = require("../config.js");
 const router = express.Router();
 
+
+router.post("/login", (req, res) => {
+  const sql = "SELECT * FROM users WHERE username=$1 AND unsecured_password=$2";
+  const params = [req.body.username, req.body.password];
+
+  utils.executeQuery(sql, params, (err, result) => {
+    if (err) {
+      res.status(500).json({ message: err });
+      return;
+    }
+
+    const userFound = result.rows[0];
+
+    if (userFound) {
+      const token = jwt.sign(
+        { username: req.body.username }, 
+        config.secret, 
+        { expiresIn: '24h' }
+      );
+      res.json({
+        message: 'Authentication successful!',
+        token: token
+      });
+    } else {
+      res.status(403).json({
+        message: 'Incorrect username or password'
+      });
+    }
+  });
+});
 
 // GET: Lister les projects
 // ----------------------------------------------
@@ -53,7 +87,7 @@ router.get("/projects/:id([0-9]*)", (req, res) => {
 });
 
 // Ajouter un nouveau projet
-router.post("/projects", (req, res) => {
+router.post("/projects", helpersMW.checkToken, (req, res) => {
   projectsServices.save(req.body, (err, result) => {
     if (err) {
       res.status(500).json({ message: err });
@@ -69,7 +103,8 @@ router.post("/projects", (req, res) => {
 });
 
 // Supprimer le projet dont l'Id est passée en param
-router.delete("/projects/:id([0-9]*)", (req, res) => {
+router.delete("/projects/:id([0-9]*)", helpersMW.checkToken, (req, res) => {
+
   projectsServices.deleteById(req.params.id, (err, result) => {
     if (err) {
       res.status(500).json({ message: err });
@@ -81,7 +116,7 @@ router.delete("/projects/:id([0-9]*)", (req, res) => {
 });
 
 // Mettre à jour le projet dont l'ID est passée en param
-router.patch("/projects/:id([0-9]*)", (req, res) => {
+router.patch("/projects/:id([0-9]*)", helpersMW.checkToken, (req, res) => {
   // Créer un objet javascript dans lequel on va retrouver
   const projectDetails = {
     ...req.body,

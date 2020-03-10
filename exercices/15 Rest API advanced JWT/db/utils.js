@@ -1,5 +1,5 @@
 const utils = {};
-const config = require("../config");
+const config = require("../config.js");
 const { Pool } = require("pg");
 
 // Inialisation de la connexion

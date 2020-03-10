@@ -44,7 +44,7 @@ app.use("/contact", contactRoutes);
 app.use("/login", loginRoutes);
 app.use("/api", apiRoutes);
 
-let server = app.listen("3000", () => {
+let server = app.listen(3000, () => {
   console.log(`Server started. Listening on port ${server.address().port}`);
   helpers.setServerPort(server.address().port);
 });

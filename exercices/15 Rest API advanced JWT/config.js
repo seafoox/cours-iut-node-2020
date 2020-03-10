@@ -5,5 +5,6 @@ module.exports = {
 		database: "",
 		password: "",
 		port: 5432
-	} 
+	},
+	secret: "thecakeisalie"
 };
