@@ -125,6 +125,35 @@ La logique reste la même pour les autres actions nécessaires à la l'expositio
 * Mettre à jour le projet dont l'ID est passée en param
 
 
+### Passage de paramètres
+Afin d'enrichir le comportement de notre API il est souvent intéressant de passer des paramètres à nos requêtes d'API. Ceci est monnaie courante lorsque l'on utilise les méthodes POST et PUT, mais aussi lorsque l'on utile la méthode GET. À la difference près que les valeurs doivent être passées sous forme de param dans l'URI.
+Par exemple, en créer le paramètre `sortBy` pour la route `/api/v1/projects` utilisable de la façon suivante ```http://localhost:3000/api/v1/projects?sortBy=createdAt_asc```
+
+Côté code il est très facile de récupérer la valeur du param `sortBy` grâce au framework Express qui la rend disponible dans la variable `req.query.ANY_PARAM_NAME`
+
+
+Extrait du fichier **./routes/api.js**
+```js
+router.get("/projects", (req, res) => {
+  let sortBy = req.query.sortBy;
+  let orderByString = "id DESC";
+
+  switch (sortBy) {
+    case "name_asc":
+      orderByString = "name ASC";
+      break;
+      
+    ...
+  }
+
+  ...
+};
+```
+
+#### Bonus: Pagination des éléments demandés
+De la même façon nous pourrions imaginer créer deux nouveaux paramètres: `page=1&limit=10`. Ceci nous permettrait de créer un système de pagination afin par exemple de récupérer la liste des projets par lots de 10. Une bonne pratique est alors de retourner en plus des données demandées le nombre total d'éléments demandé, et ce afin de calculer le nombre maximum de pages accessibles. Par exemple si la BD continet 34 projets, il sera alors possible d'aller en `page=4` si `limit=10` ou encore en `page=8` si `limit=5`, mais pas en `page=10` si `limit=10`. Autrement cela reviendra à vouloir accéder aux éléments 101 à 110 alors que notre BD n'en contient que 34.
+
+
 ## Tester son API à l'aide d'un client REST
 Tester son API est trivial lorsqu'il s'agit de tester des requêtes GET, car un simple navigateur internet suffit. Pour les autres méthodes HTTP ce n'est pas tellement difficile, mais il faut s'équiper d'une Client HTTP permettant de faire des requêtes GET, POST, PUT, PATCH UPDATE.
 
